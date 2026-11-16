@@ -1,0 +1,33 @@
+.gradle/
+.local-gradle/
+.android-sdk/
+.android-user/
+.tool-downloads/
+verification-logs/
+**/build/
+local.properties
+*.iml
+.idea/
+.DS_Store
+
+# Locally preserved APKs and their isolated build outputs
+/apk-iterations/
+
+# Local tooling state, diagnostics, and signing material
+/.codex/
+/.cursor/
+/.gemini/
+/.impeccable/
+/.kotlin/
+/*.log
+*.jks
+*.keystore
+*.p12
+*.key
+/signing.properties
+
+__pycache__/
+*.py[cod]
+
+# Local release signing credentials
+/release-signing/
