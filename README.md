@@ -1,80 +1,55 @@
+<div align="center">
+
 # ScanLite
 
-ScanLite is an Android document scanner built with Kotlin and Jetpack Compose. Scan a document or import photos, review the pages, and save them as JPEG, JPG, PNG, or PDF. It supports Android 10 (API 29) and later.
+### Your documents, ready to send.
 
-## Features
+Scan or import a document. **Choose the format. Set the maximum size.**\
+Preview the result before you save it.
 
-- Scan with Google ML Kit's document scanner or import images with the Android photo picker.
-- Rotate pages, choose an export format, set an optional size limit, and review the processed result before saving.
-- Save to Downloads/ScanLite or a folder selected in Settings. Open, share, and delete saved files from History.
-- Choose light, dark, or system appearance in Settings.
+[**Download ScanLite for Android**](https://github.com/krishnakasarla/ScanLite/releases/latest) · [Report an issue](https://github.com/krishnakasarla/ScanLite/issues) · [Contribute](CONTRIBUTING.md)
 
-ML Kit provides its own scanning and editing screen, and requires compatible Google Play services. Its scanner components may need to download on first use. The app itself does not request Internet or broad camera/storage permissions.
+Android 10 and later · Free and open source · No account required
 
-## Getting started
+</div>
 
-Open this directory in Android Studio with AGP 9.1.1 support. Use JDK 17 or 21, Android SDK Platform 37.0 (`platforms;android-37.0`), and Build Tools 36.0.0. Set `ANDROID_HOME` or let Android Studio configure `local.properties`. Initial dependency downloads require network access. AGP 9 provides built-in Kotlin support; do not add the legacy Kotlin Android plugin.
+---
 
-Create a debug APK without overwriting an existing iteration:
+## Why ScanLite?
 
-```sh
-./tools/build_debug.sh
-```
+Sometimes scanning a document is only the beginning. A form asks for a PDF; another website accepts only a JPEG under 200 KB. Getting from a photo to the right file can mean switching between a scanner, a converter, and a compressor.
 
-The script prints the new APK path under `apk-iterations/`. Install that file on an authorized device with `adb install -r <apk-path>`. Debug APKs are for development; a user-facing release requires separate release signing and verification.
+ScanLite brings those decisions together. Choose **JPEG, JPG, PNG, or PDF**, enter an optional **maximum file size**, and review the processed document before saving. It was created to make everyday document submissions simpler, with an open-source app you can inspect and improve.
 
-## Creating a signed release APK
+## Made for the last step, too
 
-Keep the release keystore and its password outside version control and back up both securely. Future updates must use the same signing key. Set the Android SDK path, keystore path, and key alias, then run the release script in an interactive terminal:
+| | |
+| --- | --- |
+| **Scan or import** | Capture documents with the scanner or pick existing photos from your gallery. |
+| **Choose your format** | Export as JPEG, JPG, PNG, or a multi-page PDF. |
+| **Set a size limit** | Enter an optional maximum in KB or MB. The limit applies to each image or to the entire PDF. |
+| **Preview before saving** | Check the processed pages and file size. Prepare a new preview after changing export settings. |
+| **Keep your files accessible** | Save to Downloads or a folder you choose; open, share, or delete files from History. |
+| **Make it yours** | Choose light, dark, or system appearance. |
 
-```sh
-export ANDROID_HOME="/path/to/android-sdk"
-export SCANLITE_KEYSTORE="/secure/path/to/release-keystore.p12"
-export SCANLITE_KEY_ALIAS="your-key-alias"
-./tools/build_release.sh
-```
+Some size targets cannot be met without reducing quality beyond the app's safeguards. In that case, ScanLite tells you instead of saving an oversized file. Always check that the preview is readable.
 
-The script prompts for the keystore and key passwords without displaying them, builds into a new `apk-iterations/` directory, aligns and signs the APK, and verifies its signature. For automation, `SCANLITE_STORE_PASSWORD` and `SCANLITE_KEY_PASSWORD` can be supplied securely as environment variables. Never commit passwords or the keystore. Increment `versionCode` and update `versionName` before publishing a subsequent release.
+## Get ScanLite
 
-A release-signed build cannot update an installed debug-signed build with a different signing key. Uninstalling the debug app removes its local history; exported documents in shared storage remain.
+1. Download `ScanLite-release.apk` from the [latest release](https://github.com/krishnakasarla/ScanLite/releases/latest).
+2. Open the downloaded file on your Android phone and allow installation from that source if Android asks.
+3. Open ScanLite and choose **Scan Document** or **Import from Gallery**.
 
-## Using the app
+The scanner requires compatible Google Play services; scanner components may need to download on first use. The app supports Android 10 (API 29) and later.
 
-1. Tap **Scan Document** or **Import from Gallery**. Complete scanning and any cropping or cleanup in the scanner interface.
-2. In Preview & Export, navigate or rotate pages, choose a format, and optionally enter a maximum size. JPEG and JPG use the same encoding with different extensions.
-3. Tap **Prepare preview**, review the processed result, then tap **Save files**. Changes to export settings or rotation require preparing the preview again.
-4. Use the gear button on Home to choose the theme and default save location. Open or share saved files from History.
+## Your documents and privacy
 
-For image exports the size limit applies per file; for PDF it applies to the entire document. Limits are measured in binary units (1 KB = 1,024 bytes; 1 MB = 1,048,576 bytes). Some targets cannot be reached without excessive reduction; the app reports failure rather than saving an oversized output. Review the result for readability.
+ScanLite has **no account, advertising, analytics, or cloud storage of its own**. The app does not request Internet or broad camera/storage permissions.
 
-## Tests and verification
+A folder you choose may be managed or synced by its storage provider, and files you share are handled by the receiving app. An unchanged JPEG may retain its original EXIF metadata, including location if present. Imported pages and processed previews use temporary private cache files; saved documents remain in your chosen destination.
 
-```sh
-./gradlew testDebugUnitTest
-./gradlew lintDebug
-# With a connected, authorized device or emulator:
-./gradlew connectedDebugAndroidTest
-```
+## Open source
 
-`python3 tools/run_core_checks.py` runs additional checks against platform-independent production Kotlin. It requires `kotlinc` or the project's cached Gradle wrapper distribution. These checks do not replace Android tests.
+ScanLite is built with Kotlin, Jetpack Compose, and Google ML Kit's document scanner. Ideas, bug reports, and contributions are welcome.
 
-`tools/setup_android_and_verify.sh` can install SDK components, build to a fresh APK iteration, run unit tests and lint, and start an emulator for instrumented tests. It prompts for SDK licenses and needs network access. Set `SCANLITE_TEST_SERIAL` to use a specific connected device instead. Logs go to the ignored `verification-logs/` directory.
-
-The latest local debug build and all eight unit tests passed. Android lint completed with no errors and 14 warnings. Android integration and manual device testing have not been established as passing for the current version.
-
-Before release, test camera capture and scanner editing, multi-page import, each export format and size limit, both save locations, open/share/delete, permission revocation, app recreation, and light/dark themes on a device.
-
-## Privacy and limitations
-
-ScanLite has no account, analytics, or cloud storage of its own. A folder selected through Android's document picker may be managed or synced by another provider; files shared with another app are handled by that app. An unchanged JPEG may be copied with its original EXIF metadata, including location if present.
-
-Imported pages and processed previews use temporary private cache files. Android may remove cached files under storage pressure. Saved documents live in the selected destination and are not removed when the cache is cleared. PDF exports contain images and do not provide OCR or selectable text. Scanner controls and component availability depend on Google Play services.
-
-## Project layout
-
-- `app/src/main/` — app source, manifest, and resources; `app/schemas/` contains Room schemas.
-- `app/src/test/` and `app/src/androidTest/` — local unit and Android device tests.
-- `tools/` — build and supplementary verification scripts.
-- `apk-iterations/` — local, ignored build outputs; existing APKs are preserved.
-
-See [AGENTS.md](AGENTS.md) for contributor guidelines and [LICENSE](LICENSE) for licensing.
+For development, testing, and release-signing instructions, see [CONTRIBUTING.md](CONTRIBUTING.md). ScanLite is available under the [MIT License](LICENSE).

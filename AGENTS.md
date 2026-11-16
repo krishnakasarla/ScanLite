@@ -14,7 +14,7 @@ Use JDK 17 or 21, Android SDK Platform 37 and Build Tools 36.0.0. Configure the 
 - `./gradlew connectedDebugAndroidTest` runs instrumented tests on a connected device or emulator.
 - `python3 tools/run_core_checks.py` runs supplementary offline checks against production Kotlin logic.
 
-Install the newly built debug APK with `adb install -r <apk-path>` using the path printed by the script. See the README for setup and manual device checks.
+Install the newly built debug APK with `adb install -r <apk-path>` using the path printed by the script. See CONTRIBUTING.md for setup and manual device checks.
 
 ## Coding Style & Naming Conventions
 
